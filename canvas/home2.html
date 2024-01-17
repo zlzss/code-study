@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="./index.js"></script> -->
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      // 调用函数绘制图形
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = "red";
+      ctx.fillStyle = "blue";
+      // 设置开关
+      var flag = false;
+      // 鼠标按下绘图
+      canvas.onmousedown = (e) => {
+        flag = true;
+        ctx.beginPath();
+        ctx.moveTo(e.clientX, e.clientY);
+      };
+      // 鼠标抬起停止绘图
+      canvas.onmouseup = () => {
+        flag = false;
+      };
+
+      // 鼠标移入绘图
+      canvas.onmousemove = (e) => {
+        if (!flag) return;
+        ctx.lineTo(e.clientX, e.clientY);
+        ctx.stroke();
+      };
+    </script>
+  </body>
+</html>
