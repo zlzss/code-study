@@ -20,8 +20,9 @@
       // 鼠标按下绘图
       canvas.onmousedown = (e) => {
         flag = true;
+        // 重新绘制
         ctx.beginPath();
-        ctx.moveTo(e.clientX, e.clientY);
+        ctx.moveTo(e.clientX, e.clientY); // 设置起点
       };
       // 鼠标抬起停止绘图
       canvas.onmouseup = () => {
@@ -31,6 +32,7 @@
       // 鼠标移入绘图
       canvas.onmousemove = (e) => {
         if (!flag) return;
+        // 绘制，移动至下一个点
         ctx.lineTo(e.clientX, e.clientY);
         ctx.stroke();
       };

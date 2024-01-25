@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="./index.js"></script> -->
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      // 调用函数绘制图形
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      // 线宽
+      ctx.lineWidth = 5;
+      // 填充颜色
+      ctx.fillStyle = "red";
+      // 线条颜色
+      ctx.strokeStyle = "blue";
+      // 绘制矩形
+      // 方案一：
+      // ctx.rect(20,20,300,100)
+      // ctx.stroke()
+      // ctx.fill()
+      // 方案二：
+      ctx.strokeRect(20, 20, 300, 100);
+      ctx.fillRect(20, 20, 300, 100);
+      ctx.clearRect(30, 30, 100, 50);
+
+      // 绘制圆形
+      // ctx.arc(x,y,半径,起始角度,最终角度)
+      ctx.arc(110, 250, 100, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fill();
+
+      // 填充渐变颜色
+      // var grd = ctx.createLinearGradient(x0,y0,x1,y1)
+      // 参数含义：（开始点的x轴，开始点的y轴，结束点的x轴，结束点的y轴）
+      var grd = ctx.createLinearGradient(0, 0, 200, 0);
+      grd.addColorStop(0, "red");
+      grd.addColorStop(0.5, "white");
+      grd.addColorStop(1, "blue");
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 350, 200, 200);
+
+      // 绘制文字
+      ctx.font = "30px '微软雅黑'";
+      // ctx.fillText(文本,x,y,maxWidth?) 
+      // maxWidth?:可选。允许的最大文本宽度，以像素计。
+      // 文本对齐
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top"
+      // 文字阴影
+      ctx.shadowColor = "black";
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      // 阴影模糊度
+      ctx.shadowBlur = 5;
+      // 绘制实心文字
+      ctx.fillText("Hello World", 10, 560);
+      ctx.strokeText("Hello World", 10, 600);
+    </script>
+  </body>
+</html>

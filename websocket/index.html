@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul class="msgs">
+    <span>数据展示</span>
+  </ul>
+  <input type="text" placeholder="发送信息" class="content" />
+
+  <button class="closeBtn">关闭连接</button>
+  <script>
+    var ul = document.querySelector('.msgs'); // 获取ul元素
+    var content = document.querySelector('.content'); // 获取输入框元素
+
+    var closeBtn = document.querySelector('.closeBtn'); // 获取关闭按钮元素
+    // 连接服务器
+    var ws = new WebSocket('ws://139.196.42.209:8090');
+    // 监听连接成功
+    ws.onopen = function(){
+      alert('服务器连接成功');
+    }
+    // 监听连接失败
+    ws.onerror = function(){
+      alert('服务器连接失败');
+    }
+    // 监听接收信息
+    ws.onmessage = function(e){
+      console.log(e.data);
+    }
+    // 发送信息
+    content.onkeydown = function(e){
+      ws.onsend(e.value);
+    }
+    // 关闭连接
+    closeBtn.onclick = function(){
+      ws.close();
+    }
+  </script>
+</body>
+</html>

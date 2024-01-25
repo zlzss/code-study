@@ -23,6 +23,14 @@
       ctx.fill()
       ctx.stroke()
 
+      // 重新绘制
+      ctx.beginPath()
+      ctx.moveTo(10,200)
+      ctx.lineTo(100,200)
+      ctx.lineTo(100,300)
+      ctx.closePath() //闭合
+      ctx.stroke()
+
     </script>
   </body>
 </html>
