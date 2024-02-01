@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div>
+      单文件上传
+      <input type="file" value="" id="file" accept="image/*" />
+      <!-- 本地预览 -->
+      <img src="" alt="暂无照片" id="myImg" style="width: 200px" />
+      <button id="upload">上传</button>
+    </div>
+    <div id="lists"></div>
+  </body>
+  <script>
+    var _input = document.getElementById("file"),
+      _upload = document.getElementById("upload"),
+      _myImg = document.getElementById("myImg"),
+      _lists = document.getElementById("lists");
+
+    // 预览
+    _input.onchange = function (e) {
+      if (!window.fileReader) {
+        alert('浏览器不支持')
+        return
+      }
+      var files = _input.files ? _input.files : [];
+      if (files.length > 0) {
+        //获取文件对象
+        console.log(e.target);
+        var file = e.target.files[0];
+        var reader = new FileReader(); // 异步文件读取
+        reader.readAsDataURL(file); // 转成base64
+        // 数据读取完成
+        reader.onload = function (event) {
+          console.log(event); // event.target.result
+          _myImg.src = event.target.result;
+        };
+      }
+    };
+
+    // 上传
+    _upload.onclick = function () {
+      if (!window.fileReader) {
+        alert('浏览器不支持')
+        return
+      }
+      var files = _input.files ? _input.files : [];
+      if (files.length > 0) {
+        // 通过formData将文件转成二进制（流）
+        var fd = new FormData();
+        fd.append("file", files[0]);
+
+        // ajax
+        var request = new XMLHttpRequest();
+        request.open("post", "http://139.196.42.209:8001/uoload/single");
+        request.send(fd);
+        request.onreadystatechange = function () {
+          if (request.readyState === 4 && request.status === 200) {
+            console.log(request.responseText);
+            alert("上传成功");
+            // 清空表单值
+            _input.vlaue = "";
+            // 清空本地预览
+            _myImg.value = "";
+            // 数据展示
+            list();
+            return;
+          }
+        };
+      }
+    };
+
+    // 数据展示 http://139.196.42.209:8001/uoload/list
+    function list() {
+      var request = new XMLHttpRequest();
+      request.open("get", "http://139.196.42.209:8001/uoload/list");
+      request.send();
+      request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+          console.log(request.responseText);
+          var response = JSON.parse(request.respinseText);
+          var str = "<ul>";
+          response.list.forEach(function (item, i) {
+            str += "<li>" + item + "</li>";
+          });
+          str += "</ul>";
+          _lists.innerHTML = str;
+        }
+      };
+    }
+  </script>
+</html>

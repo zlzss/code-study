@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div>
+      多文件上传
+      <!-- =======变更一：添加multiple属性=========== -->
+      <input type="file" value="" id="file" accept="image/*" multiple />
+      <!-- 本地预览 -->
+      <div id="imgs"></div>
+
+      <button id="upload">上传</button>
+    </div>
+    <div id="lists"></div>
+  </body>
+  <script>
+    var _input = document.getElementById("file"),
+      _upload = document.getElementById("upload"),
+      _lists = document.getElementById("lists");
+
+    // 预览
+    _input.onchange = function (e) {
+      // ================= 变更三： =================
+      var imgs = document.querySelector("#imgs");
+      for (var i = 0; i < e.target.files.length; i++) {
+        var img = document.createElement("img");
+        img.width = 100;
+        // 获取当前文件
+        var file = e.target.files[i];
+        console.log(file);
+        if (!/^image\/.*$/i.test(file.type)) {
+          // 不是图片，跳出本次循环
+        }
+        // 静态方法会创建一个DOMString，其中包含一个表达参数中给出的对象
+        var thisSrc = URL.createObjectURL(file);
+        img.setAttribute("src", thisSrc);
+        img.onload = function () {
+          img.append(this);
+          // 释放内存
+          URL.revokeObjectURL(thisSrc);
+        };
+      }
+      // var files = _input.files ? _input.files : [];
+      // if (files.length > 0) {
+      //   //获取文件对象
+      //   console.log(e.target);
+      //   var file = e.target.files[0];
+      //   var reader = new FileReader(); // 异步文件读取
+      //   reader.readAsDataURL(file); // 转成base64
+      //   // 数据读取完成
+      //   reader.onload = function (event) {
+      //     console.log(event); // event.target.result
+      //     _myImg.src = event.target.result;
+      //   };
+      // }
+    };
+
+    // 上传
+    _upload.onclick = function () {
+      if (!window.fileReader) {
+        alert("浏览器不支持");
+        return;
+      }
+      var files = _input.files ? _input.files : [];
+      if (files.length > 0) {
+        // 通过formData将文件转成二进制（流）
+        var fd = new FormData();
+        // ========== 变更二：fd.append("file", files[0]); ==========
+        for (var i = 0; i < files.length; i++) {
+          fd.append("files", files[i]);
+        }
+
+        // ajax
+        var request = new XMLHttpRequest();
+        request.open("post", "http://139.196.42.209:8001/uoload/single");
+        request.send(fd);
+        request.onreadystatechange = function () {
+          if (request.readyState === 4 && request.status === 200) {
+            console.log(request.responseText);
+            alert("上传成功");
+            // 清空表单值
+            _input.vlaue = "";
+            // 清空本地预览
+            _myImg.value = "";
+            // 数据展示
+            list();
+            return;
+          }
+        };
+      }
+    };
+
+    // 数据展示 http://139.196.42.209:8001/uoload/list
+    function list() {
+      var request = new XMLHttpRequest();
+      request.open("get", "http://139.196.42.209:8001/uoload/list");
+      request.send();
+      request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+          console.log(request.responseText);
+          var response = JSON.parse(request.respinseText);
+          var str = "<ul>";
+          response.list.forEach(function (item, i) {
+            str += "<li>" + item + "</li>";
+          });
+          str += "</ul>";
+          _lists.innerHTML = str;
+        }
+      };
+    }
+  </script>
+</html>
