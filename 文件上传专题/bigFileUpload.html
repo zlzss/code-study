@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="js/axios.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <style>
+      .Bar {
+        position: relative;
+        width: 200px;
+        border: 1px solid #b1d632;
+        padding: 1px;
+      }
+      .Bar div {
+        display: block;
+        position: relative;
+        background: #b1d632;
+        color: #333333;
+        height: 20px;
+        line-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>大文件上传</h2>
+      <input type="file" value="" id="file" />
+      <button id="submitBtn">上传</button>
+    </div>
+    <div class="Bars">
+      <div style="width: 0%">
+        <span>0%</span>
+      </div>
+    </div>
+    <script type="text/javaScript" src="js/bigFile.js" ></script>
+  </body>
+</html>

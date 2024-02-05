@@ -78,7 +78,7 @@
     // 数据展示 http://139.196.42.209:8001/uoload/list
     function list() {
       var request = new XMLHttpRequest();
-      request.open("get", "http://139.196.42.209:8001/uoload/list");
+      request.open("get", "http://139.196.42.209:8001/upload/list");
       request.send();
       request.onreadystatechange = function () {
         if (request.readyState === 4 && request.status === 200) {
