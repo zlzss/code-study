@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    // 构造函数也是函数 为了区分，命名方式不同 首字母大写
+    // 构造函数 主要用来初始化对象 给对象添加属性和方法]
+    function Person(name, age) {
+      // 构造函数 底层逻辑
+      // 1、创建一个{}
+      // 2、该对象指向this
+      // 3、return this对象
+
+      this.name = name;
+      this.age = age;
+
+      // 添加方法
+      // 若之后多次使用该构造函数Person() 会发现这样的赋值执行了多次（创建函数的次数） 没必要 === 出现了【原型】
+      // this.sayHi = function(){
+      //   console.log('你好，我是'+this.name+'今年'+this.age+'岁了');
+      // }
+    }
+
+    console.log(Person.prototype)
+    Person.prototype.color = '黄种人'
+    // 更高效的复用方法
+    // 原型中挂载的东西 每个实例都可以用到
+    Person.prototype.sayHi = function () {
+      console.log(this.color+" 你好，我是" + this.name + "今年" + this.age + "岁了");
+    };
+
+    // 使用构造函数 直接: new Person() 或者 Person()
+    var p1 = new Person("张三", 18);
+    var p2 = new Person("李四", 20);
+    console.log(p1, p2);
+    // 调用方法
+    p1.sayHi();
+    p2.sayHi();
+
+
+
+  </script>
+  <body></body>
+</html>

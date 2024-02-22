@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 严格模式下 this指向undefined
+      // "use strict"
+      function fn(调用方式) {
+        // this一般看谁调用这个函数，即 .前面的 或者 [0]前面的
+        console.log(调用方式, ",this", this);
+      }
+      fn('非严格模式下的全局调用') // window
+      var res = new fn('非严格模式下的new调用') // new 名称Fn才规范
+      console.log(res) // fn{} 空对象
+      console.error("----------分割线1--------");
+
+      var arr = [0,fn,2]
+      arr[1]('arr[1]()')  // [0,fn(调用方式),2]
+      console.error("----------分割线2--------");
+      var obj = {
+        arr: [
+          0,
+          {
+            fn: fn,
+          },
+        ],
+      };
+      obj.arr[1].fn("obj.arr[1].fn()"); // {fn:f} 即obj.arr[1]
+
+      console.error("----------分割线3--------");
+
+      var obj2 = {
+        fn: fn,
+      };
+      var arr2 = [1, 2, 3, obj2];
+      arr2[3].fn("arr2[3].fn()"); // {fn:f} 即obj2
+
+      console.error("----------分割线4--------");
+
+      var obj3 = {
+        arr:[fn,1]
+      }
+      // this一般看谁调用这个函数，即 .前面的 或者 [0]前面的
+      // obj3.arr.0() ==> obj3.arr[0]
+      obj3.arr[0]('obj3.arr[0]()') // [fn,1] 即 obj3.arr
+
+    </script>
+  </body>
+</html>

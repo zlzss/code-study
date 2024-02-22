@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+
+    Person.prototype.color = '原型颜色'
+    var p1 = new Person("张三", 18);
+    var p2 = new Person("李四", 20);
+
+    console.log(p1, p2);
+
+    // 并且该属性也要是enumberable:true 被枚举出来，以下两种都必须支持
+
+    // 【语法】不分是否原型属性，
+    // 1、keyStr in obj => 布尔值
+    console.log('color' in p1); // true
+    console.log('name' in p1) // true
+    // if('color' in p1){
+    //   console.log(p1['color']) // 原型颜色
+    // }
+
+    // 更多的都是判断非原型的，即自身的
+    for(var key in p1){
+      console.log(key,p1[key]);
+    }
+
+    // 【方法】 区分是的原型属性
+    // 只获取自身属性
+    console.log(p1.hasOwnProperty('color')) // false
+    console.log(p1.hasOwnProperty('name')) // true
+
+    console.log(Object.keys(p1)) // ['name', 'age']
+    console.log(Object.values(p1)) // ['张三', 18]
+  </script>
+
+</body>
+</html>

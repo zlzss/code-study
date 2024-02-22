@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var fn = function () {
+        console.log("this,", this);
+      }.bind(obj);
+
+      var obj = {
+        name: "zl",
+        init: function () {
+          var that = this;
+          window.addEventListener(
+            "keypress",
+            // function () {
+            //   // console.log("this,", this); // 默认指向window
+            //   // （1）原始方式变更：
+            //   console.log("this,", that); // 打印结果：{name: 'zl', init: ƒ} 即obj
+            // }
+            fn
+          );
+        },
+      };
+
+      obj.init();
+    </script>
+  </body>
+</html>

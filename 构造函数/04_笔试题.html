@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fn(调用方式) {
+        console.log(调用方式, ",this222", this);
+      }
+      var obj = {
+        fn: function () {
+          console.log("this111", this);
+          return fn;
+        },
+        name: "suibian",
+      };
+      obj.fn(); // {name: 'suibian', fn: ƒ} 即this指向obj
+      obj.fn()("obj.fn()");
+      // 第一轮：{name: 'suibian', fn: ƒ} 即this指向obj
+      // 第二轮：window
+      // 解释：this指向obj.fn(), fn函数中默认return的全局 所以这里打印结果为 window
+      console.error("----------分割线1--------");
+      // 以下同理可得：
+      var arr = [obj, 1]; 
+      arr[0].fn()(); 
+      // 第一轮：{name: 'suibian', fn: ƒ} 即this指向obj
+      // 第二轮：window
+      // 后面的调用等同于全局调用（没有谁.）
+      // 等同于===> var res =  arr[0].fn()(); res()
+    </script>
+  </body>
+</html>
